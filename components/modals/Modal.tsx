@@ -93,7 +93,7 @@ export const Modal = ({
           xl:w-2/5
           my-6
           mx-auto 
-          h-full 
+          h-auto
           lg:h-auto
           md:h-auto
           "
@@ -103,7 +103,7 @@ export const Modal = ({
             className={`
             translate
             duration-300
-            h-full
+            h-auto
             ${showModal ? "translate-y-0" : "translate-y-full"}
             ${showModal ? "opacity-100" : "opacity-0"}
           `}
@@ -121,7 +121,8 @@ export const Modal = ({
               flex 
               flex-col 
               w-full 
-              bg-white 
+              max-h-[88vh]
+              bg-white
               outline-none 
               focus:outline-none
             "
@@ -153,34 +154,37 @@ export const Modal = ({
                 </button>
                 <div className="text-lg font-semibold">{title}</div>
               </div>
-              {/*body*/}
-              <div className="relative p-6 flex-auto">{body}</div>
-              {/*footer*/}
-              <div className="flex flex-col gap-2 p-6">
-                <div
-                  className="
+
+              <div className="overflow-auto">
+                {/*body*/}
+                <div className="relative p-6 flex-auto ">{body}</div>
+                {/*footer*/}
+                <div className="flex flex-col gap-2 p-6">
+                  <div
+                    className="
                     flex 
                     flex-row 
                     items-center 
                     gap-4 
                     w-full
                   "
-                >
-                  {secondaryAction && secondaryActionLabel && (
+                  >
+                    {secondaryAction && secondaryActionLabel && (
+                      <Button
+                        disabled={disabled}
+                        label={secondaryActionLabel}
+                        onClick={handleSecondaryAction}
+                        outline
+                      />
+                    )}
                     <Button
                       disabled={disabled}
-                      label={secondaryActionLabel}
-                      onClick={handleSecondaryAction}
-                      outline
+                      label={actionLabel}
+                      onClick={handleSubmit}
                     />
-                  )}
-                  <Button
-                    disabled={disabled}
-                    label={actionLabel}
-                    onClick={handleSubmit}
-                  />
+                  </div>
+                  {footer}
                 </div>
-                {footer}
               </div>
             </div>
           </div>

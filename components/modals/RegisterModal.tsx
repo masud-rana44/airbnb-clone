@@ -10,6 +10,7 @@ import { Modal } from "./Modal";
 import { Heading } from "../Heading";
 import toast from "react-hot-toast";
 import Input from "../inputs/Input";
+import { Button } from "../Button";
 
 export const RegisterModal = () => {
   const registerModal = useRegisterModal();
@@ -37,7 +38,8 @@ export const RegisterModal = () => {
         registerModal.onClose();
       })
       .catch((error) => {
-        toast.error(error);
+        console.log(error);
+        toast.error("Something went wrong!");
       })
       .finally(() => {
         setIsLoading(false);
@@ -55,10 +57,54 @@ export const RegisterModal = () => {
         errors={errors}
         required
       />
+      <Input
+        id="name"
+        label="Name"
+        disabled={isLoading}
+        register={register}
+        errors={errors}
+        required
+      />
+      <Input
+        id="password"
+        label="Password"
+        type="password"
+        disabled={isLoading}
+        register={register}
+        errors={errors}
+        required
+      />
     </div>
   );
 
-  const footerContent = <div>Footer</div>;
+  const footerContent = (
+    <div className="flex flex-col gap-4 mt-3">
+      <hr />
+      <Button
+        outline
+        label="Continue with Google"
+        icon={FcGoogle}
+        onClick={() => {}}
+      />
+      <Button
+        outline
+        label="Continue with Github"
+        icon={AiFillGithub}
+        onClick={() => {}}
+      />
+      <div className="text-neutral-500 text-center mt-4 font-light">
+        <p>
+          Already have an account?{" "}
+          <span
+            onClick={registerModal.onClose}
+            className="text-neutral-800 cursor-pointer hover:underline"
+          >
+            Log in
+          </span>
+        </p>
+      </div>
+    </div>
+  );
 
   return (
     <Modal
