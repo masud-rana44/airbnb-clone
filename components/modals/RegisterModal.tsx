@@ -19,6 +19,7 @@ export const RegisterModal = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
@@ -35,6 +36,7 @@ export const RegisterModal = () => {
       .post("/api/register", data)
       .then(() => {
         toast.success("Registered!");
+        reset();
         registerModal.onClose();
       })
       .catch((error) => {

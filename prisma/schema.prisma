@@ -8,12 +8,12 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
-  email         String?   @unique
-  emailVarified DateTime?
-  image         String?
-  hasedPassword String?
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  email          String?   @unique
+  emailVarified  DateTime?
+  image          String?
+  hashedPassword String?
 
   accounts     Account[]
   listings     Listing[]
