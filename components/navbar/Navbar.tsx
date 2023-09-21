@@ -1,10 +1,14 @@
-import React from "react";
+import { SafeUser } from "@/types";
 import { Container } from "../Container";
 import { Logo } from "./Logo";
 import { Search } from "./Search";
 import { UserMenu } from "./UserMenu";
 
-export const Navbar = () => {
+interface NavbarProps {
+  currentUser?: SafeUser | null;
+}
+
+export const Navbar = ({ currentUser }: NavbarProps) => {
   return (
     <div className="fixed w-full bg-white shadow-sm">
       <div className="py-4 border-b-[1px]">
@@ -12,7 +16,7 @@ export const Navbar = () => {
           <div className="flex flex-row items-center justify-between gap-3 md:gap-0">
             <Logo />
             <Search />
-            <UserMenu />
+            <UserMenu currentUser={currentUser} />
           </div>
         </Container>
       </div>

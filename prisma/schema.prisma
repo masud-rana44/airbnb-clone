@@ -11,7 +11,7 @@ model User {
   id             String    @id @default(auto()) @map("_id") @db.ObjectId
   name           String?
   email          String?   @unique
-  emailVarified  DateTime?
+  emailVerified  DateTime?
   image          String?
   hashedPassword String?
 
@@ -20,7 +20,7 @@ model User {
   reservations Reservation[]
 
   createdAt DateTime @default(now())
-  updatedat DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
 
 model Account {
@@ -40,7 +40,7 @@ model Account {
   userId String @db.ObjectId
 
   createdAt DateTime @default(now())
-  updatedat DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 
   @@unique([provider, providerAccountId])
 }
@@ -63,7 +63,7 @@ model Listing {
   reservations Reservation[]
 
   createdAt DateTime @default(now())
-  updatedat DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
 
 model Reservation {
@@ -79,5 +79,5 @@ model Reservation {
   listingId String  @db.ObjectId
 
   createdAt DateTime @default(now())
-  updatedat DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
