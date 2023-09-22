@@ -2,12 +2,14 @@
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
+
 import useRentModal from "@/hooks/useRentModal";
 import { Modal } from "./Modal";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Heading } from "../Heading";
 import { categories } from "@/data";
 import { CategoryInput } from "../inputs/CategoryInput";
+import { CountrySelect } from "../inputs/CountrySelect";
 
 enum STEPS {
   CATEGORY = 0,
@@ -45,6 +47,17 @@ export const RentModal = () => {
       description: "",
     },
   });
+
+  const category = watch("category");
+  const location = watch("location");
+
+  const setCustomValue = (id: string, value: unknown) => {
+    setValue(id, value, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
+  };
 
   const onBack = () => {
     setStep((step) => step - 1);
@@ -88,7 +101,8 @@ export const RentModal = () => {
             <CategoryInput
               icon={item.icon}
               label={item.label}
-              onClick={() => {}}
+              onClick={(category) => setCustomValue("category", category)}
+              selected={category === item.label}
             />
           </div>
         ))}
@@ -102,6 +116,10 @@ export const RentModal = () => {
         <Heading
           title="Where is your place located?"
           subtitle="Help guests find you!"
+        />
+        <CountrySelect
+          value={location}
+          onChange={(value) => setCustomValue("location", value)}
         />
       </div>
     );
