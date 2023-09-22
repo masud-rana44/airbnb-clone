@@ -10,6 +10,7 @@ import { Avatar } from "../Avatar";
 import useRegisterModal from "@/hooks/useRegisterModal";
 import useLoginModal from "@/hooks/useLoginModal";
 import { SafeUser } from "@/types";
+import useRentModal from "@/hooks/useRentModal";
 
 interface UserMenuProps {
   currentUser?: SafeUser | null;
@@ -20,16 +21,25 @@ export const UserMenu = ({ currentUser }: UserMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
+  const rentModal = useRentModal();
 
   const toggleOpen = () => {
     setIsOpen((value) => !value);
+  };
+
+  const handleClick = () => {
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+
+    rentModal.onOpen();
   };
 
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3 ">
         <div
-          onClick={() => {}}
+          onClick={handleClick}
           className="
             hidden
             md:block
@@ -80,7 +90,7 @@ export const UserMenu = ({ currentUser }: UserMenuProps) => {
                 <MenuItem label="My favorites" onClick={() => {}} />
                 <MenuItem label="My reservations" onClick={() => {}} />
                 <MenuItem label="My properties" onClick={() => {}} />
-                <MenuItem label="Airbnb your home" onClick={() => {}} />
+                <MenuItem label="Airbnb your home" onClick={handleClick} />
                 <hr />
                 <MenuItem label="Logout" onClick={() => signOut()} />
               </>
