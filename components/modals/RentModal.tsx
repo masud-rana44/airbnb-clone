@@ -1,18 +1,21 @@
 "use client";
 
+import axios from "axios";
+import dynamic from "next/dynamic";
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 import useRentModal from "@/hooks/useRentModal";
 import { Modal } from "./Modal";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Heading } from "../Heading";
 import { categories } from "@/data";
 import { CategoryInput } from "../inputs/CategoryInput";
 import { CountrySelect } from "../inputs/CountrySelect";
-import dynamic from "next/dynamic";
 import { Counter } from "../inputs/Counter";
 import { ImageUpload } from "../inputs/ImageUpload";
+import Input from "../inputs/Input";
+import toast from "react-hot-toast";
 
 enum STEPS {
   CATEGORY = 0,
@@ -87,6 +90,25 @@ export const RentModal = () => {
     if (step !== STEPS.PRICE) {
       return onNext();
     }
+
+    setIsLoading(true);
+
+    axios
+      .post("/api/listings", data)
+      .then(() => {
+        toast.success("Listing created!");
+        router.refresh();
+        reset();
+        setStep(STEPS.CATEGORY);
+        rentModal.onClose();
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Something went wrong.");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const actionLabel = useMemo(() => {
@@ -111,7 +133,9 @@ export const RentModal = () => {
         title="Which of these describes your place?"
         subtitle="Pick a category"
       />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto">
+
+      {/* max-h-[50vh] overflow-y-auto */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 ">
         {categories.map((item) => (
           <div key={item.label} className="col-span-1">
             <CategoryInput
@@ -183,6 +207,55 @@ export const RentModal = () => {
         <ImageUpload
           value={imageSrc}
           onChange={(value) => setCustomValue("imageSrc", value)}
+        />
+      </div>
+    );
+  }
+
+  if (step === STEPS.DESCRIPTION) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="How would you describe your place?"
+          subtitle="Short and sweet works best!"
+        />
+        <Input
+          id="title"
+          label="Title"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+        <hr />
+        <Input
+          id="description"
+          label="Description"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+      </div>
+    );
+  }
+
+  if (step === STEPS.PRICE) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Now, set your price"
+          subtitle="How much do you charge per night?"
+        />
+        <Input
+          id="price"
+          label="Price"
+          formatPrice
+          type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
         />
       </div>
     );
