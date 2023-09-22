@@ -10,6 +10,7 @@ import { Heading } from "../Heading";
 import { categories } from "@/data";
 import { CategoryInput } from "../inputs/CategoryInput";
 import { CountrySelect } from "../inputs/CountrySelect";
+import dynamic from "next/dynamic";
 
 enum STEPS {
   CATEGORY = 0,
@@ -50,6 +51,15 @@ export const RentModal = () => {
 
   const category = watch("category");
   const location = watch("location");
+
+  const Map = useMemo(
+    () =>
+      dynamic(() => import("../Map"), {
+        ssr: false,
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [location]
+  );
 
   const setCustomValue = (id: string, value: unknown) => {
     setValue(id, value, {
@@ -121,6 +131,7 @@ export const RentModal = () => {
           value={location}
           onChange={(value) => setCustomValue("location", value)}
         />
+        <Map center={location?.latlng} />
       </div>
     );
   }
