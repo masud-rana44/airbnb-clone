@@ -92,8 +92,8 @@ export const ListingCard = ({
         </div>
         {onAction && actionLabel && (
           <Button
-            disabled={disabled}
             small
+            disabled={disabled}
             label={actionLabel}
             onClick={handleCancel}
           />
