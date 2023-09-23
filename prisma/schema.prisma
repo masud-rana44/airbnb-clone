@@ -14,6 +14,7 @@ model User {
   emailVerified  DateTime?
   image          String?
   hashedPassword String?
+  favoriteIds    String[]  @db.ObjectId
 
   accounts     Account[]
   listings     Listing[]
