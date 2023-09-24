@@ -1,26 +1,27 @@
 "use client";
 
-import { Container } from "@/components/Container";
-import { Heading } from "@/components/Heading";
-import { ListingCard } from "@/components/listing/ListingCard";
-import { SafeUser } from "@/types";
-import { Listing, Reservation } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
+import { Listing, Reservation } from "@prisma/client";
 
-interface TripsClientProps {
+import { Container } from "@/components/Container";
+import { Heading } from "@/components/Heading";
+import { ListingCard } from "@/components/listing/ListingCard";
+import { SafeUser } from "@/types";
+
+interface ReservationClientProps {
   reservations: (Reservation & {
     listing: Listing;
   })[];
   currentUser: SafeUser | null;
 }
 
-export const TripsClient = ({
+export const ReservationClient = ({
   reservations,
   currentUser,
-}: TripsClientProps) => {
+}: ReservationClientProps) => {
   const router = useRouter();
   const [deletingId, setDeletingId] = useState("");
 
@@ -46,10 +47,7 @@ export const TripsClient = ({
 
   return (
     <Container>
-      <Heading
-        title="Trips"
-        subtitle="Where you've been and where you're going"
-      />
+      <Heading title="Reservations" subtitle="Bookings on your properties" />
       <div
         className="
           mt-10
@@ -77,7 +75,7 @@ export const TripsClient = ({
                 actionId={reservation.id}
                 onAction={onCancel}
                 disabled={deletingId === reservation.id}
-                actionLabel="Cancel reservation"
+                actionLabel="Cancel guest reservation"
                 currentUser={currentUser}
               />
             );
