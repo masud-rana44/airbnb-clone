@@ -1,5 +1,6 @@
 import { getCurrentUser } from "@/actions/getCurrentUser";
-import { IListingsParams, getListings } from "@/actions/getListings";
+import { getListings } from "@/actions/getListings";
+export const dynamic = "force-dynamic";
 import { ClientOnly } from "@/components/ClientOnly";
 import { Container } from "@/components/Container";
 import { EmptyState } from "@/components/EmptyState";
