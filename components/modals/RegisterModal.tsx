@@ -1,6 +1,8 @@
 "use client";
 
 import useRegisterModal from "@/hooks/useRegisterModal";
+import { signIn } from "next-auth/react";
+
 import axios from "axios";
 import { useCallback, useState } from "react";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
@@ -11,7 +13,6 @@ import { Heading } from "../Heading";
 import toast from "react-hot-toast";
 import Input from "../inputs/Input";
 import { Button } from "../Button";
-import { LoginModal } from "./LoginModal";
 import useLoginModal from "@/hooks/useLoginModal";
 
 export const RegisterModal = () => {
@@ -41,6 +42,7 @@ export const RegisterModal = () => {
         toast.success("Registered!");
         reset();
         registerModal.onClose();
+        loginModal.onOpen();
       })
       .catch((error) => {
         console.log(error);
@@ -94,13 +96,13 @@ export const RegisterModal = () => {
         outline
         label="Continue with Google"
         icon={FcGoogle}
-        onClick={() => {}}
+        onClick={() => signIn("google")}
       />
       <Button
         outline
         label="Continue with Github"
         icon={AiFillGithub}
-        onClick={() => {}}
+        onClick={() => signIn("github")}
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <p>
