@@ -5,11 +5,7 @@ import { Container } from "@/components/Container";
 import { EmptyState } from "@/components/EmptyState";
 import { ListingCard } from "@/components/listing/ListingCard";
 
-interface HomeProps {
-  searchPrams: IListingsParams;
-}
-
-export default async function Home({ searchParams }: HomeProps) {
+async function Home({ searchParams }: any) {
   const listings = await getListings(searchParams);
   const currentUser = await getCurrentUser();
 
@@ -37,3 +33,5 @@ export default async function Home({ searchParams }: HomeProps) {
     </ClientOnly>
   );
 }
+
+export default Home;
